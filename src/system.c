@@ -4,7 +4,7 @@
 const char *RECORDS = "./data/records.txt";
 const char *User ="./data/users.txt";
 char Users[200];
-#define MAX_USERS 200     // Nombre maximum d'utilisateurs
+#define MAX_USERS 200     // Nombre maximum d'utilisateur
 #define MAX_NAME_LENGTH 50 // Longueur maximale pour un nom
 
 int GetId(FILE *file);
