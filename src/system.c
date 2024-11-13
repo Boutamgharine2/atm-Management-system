@@ -2,6 +2,7 @@
 #include "string.h"
 
 
+
 const char *RECORDS = "./data/records.txt";
 const char *User ="./data/users.txt";
 
@@ -193,14 +194,16 @@ void registere(struct User U)
   
     printf("\t\t\t\tBank Management System");
     printf("\n\t\t\t\t\tUser Login:");
-    scanf("%s", U.name);
+    fgets(U.name, sizeof(U.name), stdin);
+    U.name[strcspn(U.name, "\n")] = '\0';
     if (check(file,U.name)==1)
     { 
 
         
   
     printf("\n\n\n\n\n\t\t\t\tEnter the Password to login:");
-    scanf("%s", U.password);
+   fgets(U.password, sizeof(U.password), stdin);
+    U.password[strcspn(U.password, "\n")] = '\0';
    
     
     
@@ -295,4 +298,17 @@ int ValidName(char name[50]) {
     }
 
     return 1;  // Le nom n'existe pas, il est valide
+}
+char Checkname(char name[50]) {
+    char lettre[50];
+    for (int i=0;i<sizeof(name)-1;i++) { 
+      if (name[i] == ' ' || name[i] == '\n')
+      {
+        return lettre;
+      }
+      lettre+=name[i];
+
+
+    
+}
 }

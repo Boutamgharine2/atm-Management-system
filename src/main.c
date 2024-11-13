@@ -1,5 +1,6 @@
 #include "header.h"
-
+#include <stdlib.h>  
+#include <string.h> 
 void mainMenu(struct User u)
 {
     int option;
@@ -64,7 +65,12 @@ void initMenu(struct User *u)
     printf("\n\t\t[3]- exit\n");
     while (!r)
     {
-        scanf("%d", &option);
+        // scanf("%d", &option);
+        char input[20];
+        fgets(input, sizeof(input), stdin);
+        input[strcspn(input, "\n")] = '\0';
+        option = atoi(input);
+        printf("%d hsdjs\n",option);
         switch (option)
         {
         case 1:
