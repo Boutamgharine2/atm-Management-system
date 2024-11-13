@@ -1,14 +1,17 @@
 #include "header.h"
+#include "string.h"
 
 
 const char *RECORDS = "./data/records.txt";
 const char *User ="./data/users.txt";
-char Users[200];
-#define MAX_USERS 200     // Nombre maximum d'utilisateur
-#define MAX_NAME_LENGTH 50 // Longueur maximale pour un nom
 
-int GetId(FILE *file);
+#define MAX_USERS 200     // Nombre maximum d'utilisateurs
+#define MAX_NAME_LENGTH 50 // Longueur maximale pour un no
+char Users[MAX_USERS][MAX_NAME_LENGTH]; 
+
+int GetId();
 int check(FILE *file,char name[50]);
+int ValidName(char name[50]);
 
 
 int getAccountFromFile(FILE *ptr, char name[50], struct Record *r)
@@ -176,11 +179,15 @@ void registere(struct User U)
 {    
 
     system("clear");
-      FILE *file = fopen("./data/users.txt", "r+");  // Ouvrir le fichier en mode écriture et lire  ("w")
+      FILE *file = fopen("./data/users.txt", "r+");  
+      if (ferror(file)) {
+       perror("Erreur de lectur du fichier");
+       exit(0);
+   }
    
      if (file == NULL) {
         printf("Erreur \n");
-        exit(0);  // Sortir en cas d'erreur
+        exit(1);  
     }
 
   
@@ -189,17 +196,34 @@ void registere(struct User U)
     scanf("%s", U.name);
     if (check(file,U.name)==1)
     { 
+
+        
   
     printf("\n\n\n\n\n\t\t\t\tEnter the Password to login:");
     scanf("%s", U.password);
+   
     
-    U.id = GetId(file);
-    Users[U.id]=U.name;
-    printf(User);
+    
+    U.id = GetId();
+    printf("%d",U.id);
+    strncpy(Users[U.id],U.name, MAX_NAME_LENGTH - 1); 
+
     fprintf(file, "\n%d %s %s",U.id,U.name,U.password);
     fclose(file);
     } else {
-        printf("this name alredy exist!");
+        int i;
+        printf("this nam alredy exist!\n");
+        printf("Press 1 to enter a new name or press any other key to exit!\n");
+        scanf("%d",&i);
+        if (i==1)
+        {
+            registere(U);
+
+        } else {
+            exit(3);
+        }
+
+        
 
     }
 
@@ -207,22 +231,23 @@ void registere(struct User U)
 
 }
 
-int GetId(FILE *f) {
-     if (ferror(f)) {
-    perror("Erreur de lecture du fichier");
-    return -11;
-}
+int GetId() {
+     FILE *file = fopen("./data/users.txt", "r+");  
+      if (ferror(file)) {
+    perror("Erreur de lectur du fichier");
+    exit(0);
+      }
+  
     int line_count = 0; 
 
     char buffer[256]; 
-    while (fgets(buffer, sizeof(buffer), f)) {
+    while (fgets(buffer, sizeof(buffer), file)) {
         line_count++;  
     }
    
 
     return line_count;
 }
- // char Users[MAX_USERS][MAX_NAME_LENGTH];
 
 int check(FILE *file,char name[50])
  {
@@ -259,7 +284,7 @@ int check(FILE *file,char name[50])
 int ValidName(char name[50]) {
     for (int i = 0; i < 200; i++) {
         // Si on trouve une chaîne vide, cela signifie qu'on a atteint la fin des données valides
-        if (Users[i] == '\0') {
+        if (Users[i][0] == '\0') {
             break;  
         }
 
@@ -271,4 +296,3 @@ int ValidName(char name[50]) {
 
     return 1;  // Le nom n'existe pas, il est valide
 }
-
