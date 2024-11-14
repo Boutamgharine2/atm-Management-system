@@ -75,7 +75,7 @@ void initMenu(struct User *u)
         case 1:
             loginMenu(u->name, u->password);
            // printf("\n%s %s\n", u->name, u->password);
-           printf("%s\n",getPassword(*u));
+           
             
             if (strcmp(u->password, getPassword(*u)) == 0)
             {
@@ -93,7 +93,7 @@ void initMenu(struct User *u)
             struct User u;
             registereMenu(u);
 
-            // here
+            
             r = 1;
             break;
         case 3:
