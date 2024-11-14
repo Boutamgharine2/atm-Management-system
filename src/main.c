@@ -70,12 +70,13 @@ void initMenu(struct User *u)
         fgets(input, sizeof(input), stdin);
         input[strcspn(input, "\n")] = '\0';
         option = atoi(input);
-        printf("%d hsdjs\n",option);
         switch (option)
         {
         case 1:
             loginMenu(u->name, u->password);
-            printf("\n%s %s\n", u->name, u->password);
+           // printf("\n%s %s\n", u->name, u->password);
+           printf("%s\n",getPassword(*u));
+            
             if (strcmp(u->password, getPassword(*u)) == 0)
             {
                 printf("\n\nPassword Match!");
@@ -90,7 +91,7 @@ void initMenu(struct User *u)
         case 2:
             // student TODO : add your **Registration** function
             struct User u;
-            registere(u);
+            registereMenu(u);
 
             // here
             r = 1;
