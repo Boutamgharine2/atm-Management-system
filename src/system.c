@@ -37,6 +37,7 @@ void saveAccountToFile(FILE *ptr, struct User u, struct Record r)
             r.phone,
             r.amount,
             r.accountType);
+            
 }
 
 void stayOrReturn(int notGood, void f(struct User u), struct User u)
@@ -116,10 +117,11 @@ noAccount:
     scanf("%d/%d/%d", &r.deposit.month, &r.deposit.day, &r.deposit.year);
     printf("\nEnter the account number:");
     scanf("%d", &r.accountNbr);
+   // printf();
 
     while (getAccountFromFile(pf, userName, &cr))
     {
-        if (strcmp(userName, u.name) == 0 && cr.accountNbr == r.accountNbr)
+        if (strcmp(userName, u.name) == 0 || cr.accountNbr == r.accountNbr)
         {
             printf("✖ This Account already exists for this user\n\n");
             goto noAccount;
